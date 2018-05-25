@@ -2,7 +2,7 @@
 
 ## Warm up: constructing your own dataset  
 
-[Data and codes]()
+[Data and codes](https://github.com/TFTxiaozu/TFT-ML-Week-6/tree/master/WarmUp)
 
 Tutorials:
 * [part 1](https://mp.weixin.qq.com/s/PrQIcpPdngPRjagHUM9nCw)
