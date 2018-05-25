@@ -3,6 +3,8 @@ import user's own dataset using high level API ---- From TFrecords
 
 reference:
 https://www.tensorflow.org/programmers_guide/datasets
+
+Source data: my_data.h5
 '''
 
 import tensorflow as tf
@@ -40,13 +42,11 @@ if __name__ == "__main__":
     # build tfrecord file
     writer = tf.python_io.TFRecordWriter(dataset_name)
     # reader for original data
-    files = glob.glob( os.path.join('my_data', '*.png') )
-    files.sort()
+    h5f = h5py.File('my_data.h5', 'r')
+    keys = list(h5f.keys())
     # save my images to dataset
-    for i in range(len(files)):
-        img = cv2.imread(files[i], cv2.IMREAD_GRAYSCALE)
-        img = np.expand_dims(img, 2)
-        img = np.float32(img) / 255.
+    for key in keys:
+        img = np.array(h5f[key]).astype(dtype=np.float32)
         height = img.shape[0]
         width = img.shape[1]
         feature = {
@@ -56,6 +56,7 @@ if __name__ == "__main__":
         }
         example = tf.train.Example(features=tf.train.Features(feature=feature))
         writer.write(example.SerializeToString())
+    h5f.close()
     writer.close()
 
     ## load the dataset and display them with tensorboard
